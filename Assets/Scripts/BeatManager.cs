@@ -14,6 +14,7 @@ public enum BeatType
 public class BeatManager : MonoBehaviour
 {
     public static BeatManager Instance { get; private set; }
+    public bool simplifiedControllers;
 
     public delegate void OnBeatEvent(BeatType type);
     public static event OnBeatEvent OnPreBeat;
@@ -23,12 +24,18 @@ public class BeatManager : MonoBehaviour
     //[SerializeField] public static bool isPlaying {  get; private set; }
     public bool isPlaying;
     [Range(0f, 1f)] public float margen;
-    private bool onMargen;
+    public bool onMargen;
 
     public float bpm;
     private float timer;
     private int counter;
     private int totalcounter;
+    
+    
+    //auxiliares
+
+    private bool canPre;
+    private bool canPost;
     
     private void Awake() 
     { 
@@ -50,6 +57,8 @@ public class BeatManager : MonoBehaviour
         isPlaying = false;
         onMargen = false;
         timer = 0f;
+        canPre = true;
+        canPost = false;
     }
     
     void Update()
@@ -57,48 +66,36 @@ public class BeatManager : MonoBehaviour
         if (isPlaying)
         {
             timer += Time.deltaTime;
+            
+            if (timer >= ((60f / bpm) - (60f / bpm) * margen)&& canPre)
+            {
+                canPre = false;
+                PreBeat();
+                    
+            }
+            
             if (timer >= 60f/bpm)
             {
                 timer = 0f;
                 Beat();
+                canPost = true;
+                
             }
-            if (!onMargen)
+            
+            if (timer >= (0f + (60f / bpm) * margen) && canPost)
             {
-                if (timer >= ((60f / bpm) - (60f / bpm) * margen))
-                {
-                    PreBeat();
-                }
-            }
-            else
-            {
-                if (timer >= (0f + (60f / bpm) * margen))
-                {
-                    PostBeat();
-                }
+                canPost = false;
+                PostBeat();
+                canPre = true;
             }
             
         }
     }
 
-    void Beat()
-    {
-        counter += 1;
-        OnBeat(BeatType.Corchea);
-        if (counter%2==0)
-        {
-            OnBeat(BeatType.Negra);
-        }
-        if (counter%4==0)
-        {
-            OnBeat(BeatType.Blanca);
-        }
-         if (counter%8 == 0)
-        {
-            OnBeat(BeatType.Redonda);
-        }
-    }
+    
     void PreBeat()
     {
+        Debug.Log("PREE- Beat");
         onMargen = true;
         OnPreBeat(BeatType.Corchea);
         if (counter%2==0)
@@ -114,8 +111,27 @@ public class BeatManager : MonoBehaviour
             OnPreBeat(BeatType.Redonda);
         }
     }
+    void Beat()
+    {
+        Debug.Log("Beat");
+        counter += 1;
+        OnBeat(BeatType.Corchea);
+        if (counter%2==0)
+        {
+            OnBeat(BeatType.Negra);
+        }
+        if (counter%4==0)
+        {
+            OnBeat(BeatType.Blanca);
+        }
+        if (counter%8 == 0)
+        {
+            OnBeat(BeatType.Redonda);
+        }
+    }
     void PostBeat()
     {
+        Debug.Log("Post -Beat");
         onMargen = false;
         OnPostBeat(BeatType.Corchea);
         if (counter%2==0)
