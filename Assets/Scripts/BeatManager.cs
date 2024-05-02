@@ -11,6 +11,7 @@ public enum BeatType
     Redonda
 }
 
+
 public class BeatManager : MonoBehaviour
 {
     public static BeatManager Instance { get; private set; }
@@ -22,7 +23,7 @@ public class BeatManager : MonoBehaviour
     public static event OnBeatEvent OnPostBeat;
 
     //[SerializeField] public static bool isPlaying {  get; private set; }
-    public bool isPlaying;
+    
     [Range(0f, 1f)] public float margen;
     public bool onMargen;
 
@@ -36,6 +37,10 @@ public class BeatManager : MonoBehaviour
 
     private bool canPre;
     private bool canPost;
+    
+    
+    public bool isPlaying;
+    
     
     private void Awake() 
     { 
@@ -88,64 +93,72 @@ public class BeatManager : MonoBehaviour
                 PostBeat();
                 canPre = true;
             }
-            
         }
     }
 
     
     void PreBeat()
     {
-        Debug.Log("PREE- Beat");
         onMargen = true;
-        OnPreBeat(BeatType.Corchea);
-        if (counter%2==0)
+        if (OnPreBeat != null)
         {
-            OnPreBeat(BeatType.Negra);
+            OnPreBeat(BeatType.Corchea);
+            if (counter%2==0)
+            {
+                OnPreBeat(BeatType.Negra);
+            }
+            if (counter%4==0)
+            {
+                OnPreBeat(BeatType.Blanca);
+            }
+            if (counter%8 == 0)
+            {
+                OnPreBeat(BeatType.Redonda);
+            }
         }
-        if (counter%4==0)
-        {
-            OnPreBeat(BeatType.Blanca);
-        }
-        if (counter%8 == 0)
-        {
-            OnPreBeat(BeatType.Redonda);
-        }
+        
     }
     void Beat()
     {
-        Debug.Log("Beat");
         counter += 1;
-        OnBeat(BeatType.Corchea);
-        if (counter%2==0)
+        if (OnBeat != null)
         {
-            OnBeat(BeatType.Negra);
+            OnBeat(BeatType.Corchea);
+            if (counter%2==0)
+            {
+                OnBeat(BeatType.Negra);
+            }
+            if (counter%4==0)
+            {
+                OnBeat(BeatType.Blanca);
+            }
+            if (counter%8 == 0)
+            {
+                OnBeat(BeatType.Redonda);
+            }
         }
-        if (counter%4==0)
-        {
-            OnBeat(BeatType.Blanca);
-        }
-        if (counter%8 == 0)
-        {
-            OnBeat(BeatType.Redonda);
-        }
+        
     }
     void PostBeat()
     {
-        Debug.Log("Post -Beat");
         onMargen = false;
-        OnPostBeat(BeatType.Corchea);
-        if (counter%2==0)
+        if (OnPostBeat != null)
         {
-            OnPostBeat(BeatType.Negra);
+            OnPostBeat(BeatType.Corchea);
+            if (counter%2==0)
+            {
+                OnPostBeat(BeatType.Negra);
+            }
+            if (counter%4==0)
+            {
+                OnPostBeat(BeatType.Blanca);
+            }
+            if (counter%8 == 0)
+            {
+                OnPostBeat(BeatType.Redonda);
+            }
         }
-        if (counter%4==0)
-        {
-            OnPostBeat(BeatType.Blanca);
-        }
-        if (counter%8 == 0)
-        {
-            OnPostBeat(BeatType.Redonda);
-        }
+        
     }
 
     public void PlayBeat()

@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Ui Upper
   - 
   - 
   - 
@@ -40,4 +40,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Fondo
+    uniqueID: 824579031
+    locked: 0
+  - name: Piso
+    uniqueID: 2960178887
+    locked: 0
+  - name: Aura Zombie
+    uniqueID: 3691933877
+    locked: 0
+  - name: AuraPlayer
+    uniqueID: 473083353
+    locked: 0
+  - name: Person
+    uniqueID: 1573325199
     locked: 0

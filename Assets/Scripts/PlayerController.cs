@@ -3,44 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 
-public enum DanceMovesTypes
-{
-    Default,
-    Up,
-    Left,
-    Right,
-    Down,
-}
+
 
 public class PlayerController : MonoBehaviour
 {
-    public Image body;
+    public DanceController body;
+    private bool isOnZombieZone = false;
+    private OrdaBeatReceiver zombieZone;
     
-    //simplified Arms
-    public bool armsLeftActive;
-    public bool armsRightActive;
-    public bool armsUpActive;
-    public bool armsDownActive;
     
-    //Left Arm
-    public bool leftArmLeftActive;
-    public bool leftArmRightActive;
-    public bool leftArmUpActive;
-    public bool leftArmDownActive;
-    //Right Arm
-    public bool rightArmLeftActive;
-    public bool rightArmRightActive;
-    public bool rightArmUpActive;
-    public bool rightArmDownActive;
-
-    public OrdaBeatReceiver other;
-    public bool hasOther = false;
-
-    // Start is called before the first frame update
     void Start()
     {
-     body.color = Color.white;   
+        
     }
 
     // Update is called once per frame
@@ -48,56 +24,67 @@ public class PlayerController : MonoBehaviour
     {
         if (BeatManager.Instance.simplifiedControllers)
         {
-            if (Input.GetKey("up"))
+            if (Input.GetKeyDown("up"))
             {
-                //debug
-                body.color = Color.blue;
                 SendDanceMove(DanceMovesTypes.Up);
+                body.SetDancer(DanceMovesTypes.Up);
             }
-            else if (Input.GetKey("down"))
+            else if(Input.GetKeyUp("up"))
             {
-                //debug
-                body.color = Color.red;
+                body.ResetDancer();
+            }
+            
+            if (Input.GetKeyDown("down"))
+            {
                 SendDanceMove(DanceMovesTypes.Down);
+                body.SetDancer(DanceMovesTypes.Down);
             }
-            else if (Input.GetKey("left"))
+            else if(Input.GetKeyUp("down"))
             {
-                body.color = Color.green;
+                body.ResetDancer();
+            }
+            
+            if (Input.GetKeyDown("left"))
+            {
                 SendDanceMove(DanceMovesTypes.Left);
+                body.SetDancer(DanceMovesTypes.Left);
             }
-            else if (Input.GetKey("right"))
+            else if(Input.GetKeyUp("left"))
             {
-                body.color = Color.yellow;
+                body.ResetDancer();
+            }
+            
+            if (Input.GetKeyDown("right"))
+            {
                 SendDanceMove(DanceMovesTypes.Right);
+                body.SetDancer(DanceMovesTypes.Right);
             }
-            else
+            else if(Input.GetKeyUp("right"))
             {
-                body.color= Color.white;
+                body.ResetDancer();
             }
         }
-
     }
 
-    private void OnTriggerEnter2D(Collider2D otherObj)
+    private void OnTriggerEnter(Collider otherObj)
     {
-        other = otherObj.transform.GetComponent<OrdaBeatReceiver>();
-        other.playerInOrda = true;
-        hasOther = true;
+        zombieZone = otherObj.transform.GetComponent<OrdaBeatReceiver>();
+        zombieZone.playerInOrda = true;
+        isOnZombieZone = true;
     }
 
-    private void OnTriggerExit2D(Collider2D otherObj)
+    private void OnTriggerExit(Collider otherObj)
     {
-        hasOther = false;
-        other.playerInOrda = false;
-        other = null;
+        isOnZombieZone = false;
+        zombieZone.playerInOrda = false;
+        zombieZone = null;
     }
-    
 
     private void SendDanceMove(DanceMovesTypes move)
     {
-        if (hasOther)
+        if (isOnZombieZone)
         {
-            other.RecievePlayerDance(move);
+            zombieZone.RecievePlayerDance(move);
         }
     }
 }

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238cba32497ccc44fa4a49937f2ee6ed, type: 3}
+  m_Name: Zombie1
+  m_EditorClassIdentifier: 
+  head:
+    normalPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
+    upPosture: {fileID: 21300000, guid: ab8d4872dc17c92419b914a2480f9d42, type: 3}
+    downPosture: {fileID: 21300000, guid: 2fed8e303cab18e4da16c96ad6360853, type: 3}
+    leftPosture: {fileID: 21300000, guid: 4210df4bed8a2114c82e4fb84db0a3b7, type: 3}
+    rightPosture: {fileID: 21300000, guid: 12d5aa1677616ba47aaadabff07ecbc3, type: 3}
+  leftArm:
+    normalPosture: {fileID: 21300000, guid: 173d3cc4b8c66d14f88632d2679cf9d6, type: 3}
+    upPosture: {fileID: 21300000, guid: 0c0215f9e1d5feb44bd84e8e0e0bcc80, type: 3}
+    downPosture: {fileID: 21300000, guid: 93199af7c9b8c654593e72533a88bfe1, type: 3}
+    leftPosture: {fileID: 21300000, guid: 7d3e897166b10c44da9232cd7b1eccfc, type: 3}
+    rightPosture: {fileID: 21300000, guid: 35afd50b5220d9f449cb224cb907e23c, type: 3}
+  rightArm:
+    normalPosture: {fileID: 21300000, guid: 0314fb85a4b40e84091adc661cf086d0, type: 3}
+    upPosture: {fileID: 21300000, guid: 7df66a0279bd3e74391b54453855fae5, type: 3}
+    downPosture: {fileID: 21300000, guid: 5289b5c85622a9a4fbc957f3ca47aab6, type: 3}
+    leftPosture: {fileID: 21300000, guid: 1d4fc2b776a02534eadbdd7e82fca4d0, type: 3}
+    rightPosture: {fileID: 21300000, guid: 05b1f483039e2cc41b409c416f311516, type: 3}
+  torso: {fileID: 21300000, guid: baac724066cf2d947a22c97291f3c62c, type: 3}
+  legs: {fileID: 21300000, guid: 3a4f23a353dc7cb4b829edc6413a1ccf, type: 3}
