@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   head:
     normalPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
-    upPosture: {fileID: 21300000, guid: ab8d4872dc17c92419b914a2480f9d42, type: 3}
-    downPosture: {fileID: 21300000, guid: 2fed8e303cab18e4da16c96ad6360853, type: 3}
-    leftPosture: {fileID: 21300000, guid: 4210df4bed8a2114c82e4fb84db0a3b7, type: 3}
-    rightPosture: {fileID: 21300000, guid: 12d5aa1677616ba47aaadabff07ecbc3, type: 3}
+    upPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
+    downPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
+    leftPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
+    rightPosture: {fileID: 21300000, guid: 2e63c24028816174b9cc2ea5c79330fe, type: 3}
   leftArm:
     normalPosture: {fileID: 21300000, guid: 173d3cc4b8c66d14f88632d2679cf9d6, type: 3}
     upPosture: {fileID: 21300000, guid: 0c0215f9e1d5feb44bd84e8e0e0bcc80, type: 3}
