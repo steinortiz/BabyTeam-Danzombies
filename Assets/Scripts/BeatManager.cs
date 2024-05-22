@@ -16,6 +16,7 @@ public class BeatManager : MonoBehaviour
 {
     public static BeatManager Instance { get; private set; }
     public bool simplifiedControllers;
+    private AudioSource _audioSource;
 
     public delegate void OnBeatEvent(BeatType type);
     public static event OnBeatEvent OnPreBeat;
@@ -59,11 +60,13 @@ public class BeatManager : MonoBehaviour
 
     private void Start()
     {
-        isPlaying = false;
+        //isPlaying = false;
+        _audioSource = this.GetComponent<AudioSource>();
         onMargen = false;
         timer = 0f;
         canPre = true;
         canPost = false;
+        PlayBeat();
     }
     
     void Update()
@@ -164,5 +167,7 @@ public class BeatManager : MonoBehaviour
     public void PlayBeat()
     {
         isPlaying = true;
+        _audioSource.Play();
+        
     }
 }
