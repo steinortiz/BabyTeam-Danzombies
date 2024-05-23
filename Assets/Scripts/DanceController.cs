@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 public class DanceController : MonoBehaviour
 {
-    public DancerSO bodyAssets;
+    private DancerSO fatherBodyAssets;
     [SerializeField] private SpriteRenderer headGameObject;
     [SerializeField] private SpriteRenderer leftArmGameObject;
     [SerializeField] private SpriteRenderer rightArmGameObject;
@@ -16,54 +14,55 @@ public class DanceController : MonoBehaviour
     private DanceMovesTypes leftArmState;
     private DanceMovesTypes rightArmState;
 
-    public void Start()
+    public void SetUp(DancerSO bodyAssets)
     {
-        ResetDancer();
+        fatherBodyAssets = bodyAssets;
+        ResetAllSprites();
     }
 
-    public void UpdateHeadSprite(DanceMovesTypes danceMove)
+    public void SetHeadSprite(DanceMovesTypes danceMove)
     {
         
-        if (headState != danceMove)
+        if (headState != danceMove && headGameObject != null)
         {
-            headGameObject.sprite = bodyAssets.head.GetPostrue(danceMove);
+            headGameObject.sprite = fatherBodyAssets.head.GetPostrue(danceMove);
             headState = danceMove;
         }
     }
-    public void UpdateLeftArmSprite(DanceMovesTypes danceMove)
+    public void SetLeftArmSprite(DanceMovesTypes danceMove)
     {
-        if (leftArmState != danceMove)
+        if (leftArmState != danceMove && leftArmGameObject != null)
         {
-            leftArmGameObject.sprite = bodyAssets.leftArm.GetPostrue(danceMove);
+            leftArmGameObject.sprite = fatherBodyAssets.leftArm.GetPostrue(danceMove);
             leftArmState = danceMove;
         }
     }
     
-    public void UpdateRightArmSprite(DanceMovesTypes danceMove)
+    public void SetRightArmSprite(DanceMovesTypes danceMove)
     {
-        if (rightArmState != danceMove)
+        if (rightArmState != danceMove && rightArmGameObject != null)
         {
-            rightArmGameObject.sprite = bodyAssets.rightArm.GetPostrue(danceMove);
+            rightArmGameObject.sprite = fatherBodyAssets.rightArm.GetPostrue(danceMove);
             rightArmState = danceMove;
         }
     }
-    public void SetDancer(DanceMovesTypes danceMove)
+    public void SetAllSprites(DanceMovesTypes danceMove)
     {
-        headGameObject.sprite = bodyAssets.head.GetPostrue(danceMove);
-        headState = danceMove;
-        leftArmGameObject.sprite = bodyAssets.leftArm.GetPostrue(danceMove);
+        //headGameObject.sprite = bodyAssets.head.GetPostrue(danceMove);
+        //headState = danceMove;
+        leftArmGameObject.sprite = fatherBodyAssets.leftArm.GetPostrue(danceMove);
         leftArmState = danceMove;
-        rightArmGameObject.sprite = bodyAssets.rightArm.GetPostrue(danceMove);
+        rightArmGameObject.sprite = fatherBodyAssets.rightArm.GetPostrue(danceMove);
         rightArmState = danceMove;
     }
 
-    public void ResetDancer(DanceMovesTypes danceMove =DanceMovesTypes.Default)
+    public void ResetAllSprites(DanceMovesTypes danceMove =DanceMovesTypes.Default)
     {
-        headGameObject.sprite = bodyAssets.head.GetPostrue(danceMove);
-        headState = danceMove;
-        leftArmGameObject.sprite = bodyAssets.leftArm.GetPostrue(danceMove);
+        //headGameObject.sprite = bodyAssets.head.GetPostrue(danceMove);
+        //headState = danceMove;
+        leftArmGameObject.sprite = fatherBodyAssets.leftArm.GetPostrue(danceMove);
         leftArmState = danceMove;
-        rightArmGameObject.sprite = bodyAssets.rightArm.GetPostrue(danceMove);
+        rightArmGameObject.sprite = fatherBodyAssets.rightArm.GetPostrue(danceMove);
         rightArmState = danceMove;
     }
 }

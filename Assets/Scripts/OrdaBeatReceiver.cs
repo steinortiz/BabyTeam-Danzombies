@@ -26,7 +26,8 @@ public class Moves
 public class OrdaBeatReceiver : MonoBehaviour
 {
     
-    public BeatType myBeatType;
+    public BeatType danceBeatType;
+    public BeatType walkBeatType;
     
     // Zmbies DanceList
     public bool generateRandomDance;
@@ -37,6 +38,8 @@ public class OrdaBeatReceiver : MonoBehaviour
 
     public delegate void BeatZombieDanceEvent(Moves zombiedance);
     public event BeatZombieDanceEvent OnBeatZombieDance;
+    public delegate void BeatZombieWalkEvent();
+    public event BeatZombieWalkEvent OnBeatZombieWalk;
     
     
     public List<Vector3> zombiesPos = new List<Vector3>();
@@ -79,30 +82,38 @@ public class OrdaBeatReceiver : MonoBehaviour
     //Event Reactions
     private void OnPreBeatEvent(BeatType type)
     {
-        if (type == myBeatType)
+        if (type == danceBeatType)
         {
             PreBeatAction();
         }
+        
     }
     
     private void OnBeatEvent(BeatType type)
     {
-        if (type == myBeatType)
+        if (type == danceBeatType)
         {
             BeatAction();
+        }
+        if (type == walkBeatType)
+        {
+            OnBeatZombieWalk();
         }
     }
 
     private void OnPostBeatEvent(BeatType type)
     {
-        if (type == myBeatType)
+        if (type == danceBeatType)
         {
             PostBeatAction();
         }
+        
     }
     
-    //Actions on Beat
     
+    ///----------------------------------------------------------------------------------------------------------------
+    /// Actions on Beat
+
     private void PreBeatAction()
     {
         isRecieving = true;
@@ -130,18 +141,7 @@ public class OrdaBeatReceiver : MonoBehaviour
             //FinishAnimation Zombies
             OnBeatZombieDance(coreography[indexDanceMove]);
         }
-        if (colorIndex+1 == pisoColor.Count)
-        {
-            colorIndex = 0;
-        }
-        else
-        {
-            colorIndex += 1;
-        }
-
-        piso.color = pisoColor[colorIndex];
-
-
+        UpdateColorFloor();
     }
     public void RecievePlayerDance(DanceMovesTypes playerDance, bool isRightArm = false)
     {
@@ -209,5 +209,19 @@ public class OrdaBeatReceiver : MonoBehaviour
         {
             Debug.Log("FALLASTE");
         }
+    }
+
+
+    private void UpdateColorFloor()
+    {
+        if (colorIndex+1 == pisoColor.Count)
+        {
+            colorIndex = 0;
+        }
+        else
+        {
+            colorIndex += 1;
+        }
+        piso.color = pisoColor[colorIndex];
     }
 }

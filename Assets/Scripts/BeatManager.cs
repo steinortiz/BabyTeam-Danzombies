@@ -73,24 +73,25 @@ public class BeatManager : MonoBehaviour
     {
         if (isPlaying)
         {
-            timer += Time.deltaTime;
+            float songTime = _audioSource.time;
             
-            if (timer >= ((60f / bpm) - (60f / bpm) * margen)&& canPre)
+            
+            if (songTime-timer >= ((60f / bpm) - (60f / bpm) * margen)&& canPre)
             {
                 canPre = false;
                 PreBeat();
                     
             }
             
-            if (timer >= 60f/bpm)
+            if (songTime-timer >= 60f/bpm)
             {
-                timer = 0f;
+                timer = songTime;
                 Beat();
                 canPost = true;
                 
             }
             
-            if (timer >= (0f + (60f / bpm) * margen) && canPost)
+            if (songTime-timer >= (0f + (60f / bpm) * margen) && canPost)
             {
                 canPost = false;
                 PostBeat();

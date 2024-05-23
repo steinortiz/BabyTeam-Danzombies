@@ -26,48 +26,48 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown("up"))
             {
                 SendDanceMove(DanceMovesTypes.Up);
-                body.SetDancer(DanceMovesTypes.Up);
+                body.SetAllSprites(DanceMovesTypes.Up);
                 piso.color = activeColor;
             }
             else if(Input.GetKeyUp("up"))
             {
-                body.ResetDancer();
+                body.ResetAllSprites();
                 piso.color = unsactiveColor;
             }
             
             if (Input.GetKeyDown("down"))
             {
                 SendDanceMove(DanceMovesTypes.Down);
-                body.SetDancer(DanceMovesTypes.Down);
+                body.SetAllSprites(DanceMovesTypes.Down);
                 piso.color = activeColor;
             }
             else if(Input.GetKeyUp("down"))
             {
-                body.ResetDancer();
+                body.ResetAllSprites();
                 piso.color = unsactiveColor;
             }
             
             if (Input.GetKeyDown("left"))
             {
                 SendDanceMove(DanceMovesTypes.Left);
-                body.SetDancer(DanceMovesTypes.Left);
+                body.SetAllSprites(DanceMovesTypes.Left);
                 piso.color = activeColor;
             }
             else if(Input.GetKeyUp("left"))
             {
-                body.ResetDancer();
+                body.ResetAllSprites();
                 piso.color = unsactiveColor;
             }
             
             if (Input.GetKeyDown("right"))
             {
                 SendDanceMove(DanceMovesTypes.Right);
-                body.SetDancer(DanceMovesTypes.Right);
+                body.SetAllSprites(DanceMovesTypes.Right);
                 piso.color = activeColor;
             }
             else if(Input.GetKeyUp("right"))
             {
-                body.ResetDancer();
+                body.ResetAllSprites();
                 piso.color = unsactiveColor;
             }
         }

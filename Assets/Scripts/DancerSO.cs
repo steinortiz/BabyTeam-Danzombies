@@ -44,6 +44,5 @@ public class DancerSO : ScriptableObject
     public DanzablePart head = new DanzablePart();
     public DanzablePart leftArm = new DanzablePart();
     public DanzablePart rightArm = new DanzablePart();
-    public Sprite torso;
-    public Sprite legs;
+    public List<Sprite> legs = new List<Sprite>();
 }

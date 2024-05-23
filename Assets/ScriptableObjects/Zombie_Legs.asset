@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 238cba32497ccc44fa4a49937f2ee6ed, type: 3}
-  m_Name: Zombie1
+  m_Name: Zombie_Legs
   m_EditorClassIdentifier: 
   head:
     normalPosture: {fileID: -8793047149954488042, guid: 12888cfd5dc4fd743910af3317f9ece9, type: 3}
@@ -30,5 +30,8 @@ MonoBehaviour:
     downPosture: {fileID: 21300000, guid: 64b54e0610fcf6641ab55575ea68607b, type: 3}
     leftPosture: {fileID: 21300000, guid: 7bf778b398586f94089c6c4ec2cbc39b, type: 3}
     rightPosture: {fileID: 21300000, guid: 618b0deddc4f55e49b91aaec30d72e3d, type: 3}
-  torso: {fileID: 3722303109053981746, guid: 12888cfd5dc4fd743910af3317f9ece9, type: 3}
-  legs: {fileID: 21300000, guid: 3a4f23a353dc7cb4b829edc6413a1ccf, type: 3}
+  legs:
+  - {fileID: 21300000, guid: 562095299a99e6d4ab96b03e19cccc15, type: 3}
+  - {fileID: 21300000, guid: 8a3245b24e3349046a0ceda91acabba8, type: 3}
+  - {fileID: 21300000, guid: 2e77b413fa4306146b24dd11f563e5ee, type: 3}
+  - {fileID: 21300000, guid: 2cd2c96b151726545a0ff2c9d1db274d, type: 3}
