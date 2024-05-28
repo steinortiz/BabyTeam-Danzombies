@@ -29,23 +29,23 @@ public class OrdaBeatReceiver : MonoBehaviour
     public BeatType danceBeatType;
     public BeatType walkBeatType;
     
+    public SpriteRenderer piso;
+    public List<Color> pisoColor = new List<Color>();
+    private int colorIndex =-1;
+    
     // Zmbies DanceList
     public bool generateRandomDance;
     public List<Moves> coreography = new List<Moves>();
     private int indexDanceMove=-1;
-    
     public bool isRecieving;
-
     public delegate void BeatZombieDanceEvent(Moves zombiedance);
     public event BeatZombieDanceEvent OnBeatZombieDance;
     public delegate void BeatZombieWalkEvent();
     public event BeatZombieWalkEvent OnBeatZombieWalk;
     
+    // Zombies Values
+    public List<Transform> zombiesPos = new List<Transform>();
     
-    public List<Vector3> zombiesPos = new List<Vector3>();
-    public SpriteRenderer piso;
-    public List<Color> pisoColor = new List<Color>();
-    private int colorIndex =-1;
 
     //playerValues
 
@@ -53,6 +53,8 @@ public class OrdaBeatReceiver : MonoBehaviour
     private DanceMovesTypes playerLeftMoveDone;
     private DanceMovesTypes playerRightMoveDone;
     //public bool isDanceCorrect;
+    
+    
 
     private void Start()
     {
@@ -122,7 +124,7 @@ public class OrdaBeatReceiver : MonoBehaviour
         if (OnBeatZombieDance != null)
         {
             // Start AnimatingZombies
-            OnBeatZombieDance(new Moves());
+            //(OnBeatZombieDance(new Moves());
         }
     }
     
@@ -223,5 +225,10 @@ public class OrdaBeatReceiver : MonoBehaviour
             colorIndex += 1;
         }
         piso.color = pisoColor[colorIndex];
+    }
+    
+    public void Move(float timeAnim, Vector3 finalPos, LeanTweenType curve = LeanTweenType.linear)
+    {
+        LeanTween.moveLocal(this.gameObject, finalPos, timeAnim).setEase(curve).setDestroyOnComplete(true);
     }
 }

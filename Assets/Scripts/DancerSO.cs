@@ -41,8 +41,9 @@ public class DanzablePart
 [CreateAssetMenu(fileName = "NewDancer", menuName = "ScriptableObjects/Dancer Postures", order = 1)]
 public class DancerSO : ScriptableObject
 {
-    public DanzablePart head = new DanzablePart();
+    public Sprite head;
+    public Sprite body;
     public DanzablePart leftArm = new DanzablePart();
     public DanzablePart rightArm = new DanzablePart();
-    public List<Sprite> legs = new List<Sprite>();
+    public List<Sprite> legs = new List<Sprite>(4);
 }

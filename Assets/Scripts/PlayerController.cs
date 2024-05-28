@@ -10,15 +10,19 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     public DanceController body;
+    public DancerSO _bodyAssets;
     public SpriteRenderer piso;
     [SerializeField] private Color activeColor;
     [SerializeField] private Color unsactiveColor;
     private bool isOnZombieZone = false;
     private OrdaBeatReceiver zombieZone;
-    
-    
 
-    // Update is called once per frame
+
+    private void Start()
+    {
+        body.SetUp(_bodyAssets);
+    }
+
     void Update()
     {
         if (BeatManager.Instance.simplifiedControllers)

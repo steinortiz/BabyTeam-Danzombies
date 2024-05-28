@@ -11,21 +11,16 @@ public class ZombieBrain : MonoBehaviour
     [SerializeField] private DanceController _danceController;
     [SerializeField] private WalkController _walkController;
     
-    private void OnEnable()
-    {
-        fatherZone.OnBeatZombieDance += SentToDanceController;
-        fatherZone.OnBeatZombieWalk += SentToWalk;
-        
-    }
-
     private void OnDisable()
     {
         fatherZone.OnBeatZombieDance -= SentToDanceController;
         fatherZone.OnBeatZombieWalk -= SentToWalk;
     }
 
-    public void Start()
+    public void Prepare()
     {
+        fatherZone.OnBeatZombieDance += SentToDanceController;
+        fatherZone.OnBeatZombieWalk += SentToWalk;
         _danceController.SetUp(_bodyAssets);
         _walkController.SetUp(_bodyAssets);
     }
@@ -38,7 +33,6 @@ public class ZombieBrain : MonoBehaviour
         }
         else
         {
-            _danceController.SetHeadSprite(DanceMovesTypes.Default);
             _danceController.SetLeftArmSprite(moves.leftArm);
             _danceController.SetRightArmSprite(moves.rightArm);
         }

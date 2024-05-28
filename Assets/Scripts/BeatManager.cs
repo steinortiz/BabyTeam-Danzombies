@@ -16,7 +16,7 @@ public class BeatManager : MonoBehaviour
 {
     public static BeatManager Instance { get; private set; }
     public bool simplifiedControllers;
-    private AudioSource _audioSource;
+    public AudioSource _audioSource;
 
     public delegate void OnBeatEvent(BeatType type);
     public static event OnBeatEvent OnPreBeat;
@@ -49,12 +49,12 @@ public class BeatManager : MonoBehaviour
     
         if (Instance != null && Instance != this) 
         { 
-            Destroy(this); 
+            Destroy(this.gameObject); 
         } 
         else 
         { 
             Instance = this;
-            DontDestroyOnLoad(this);
+            //DontDestroyOnLoad(this);
         } 
     }
 
@@ -66,7 +66,6 @@ public class BeatManager : MonoBehaviour
         timer = 0f;
         canPre = true;
         canPost = false;
-        PlayBeat();
     }
     
     void Update()
