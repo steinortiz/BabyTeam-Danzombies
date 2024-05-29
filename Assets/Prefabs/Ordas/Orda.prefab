@@ -51,8 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de88e9b77382bfc449a2024972c40ccf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  danceBeatType: 2
-  walkBeatType: 1
+  danceBeatType: 1
+  walkBeatType: 0
   piso: {fileID: 1995620143486692102}
   pisoColor:
   - {r: 1, g: 0, b: 0.9137182, a: 0.09803922}

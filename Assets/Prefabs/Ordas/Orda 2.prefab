@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   danceBeatType: 1
-  walkBeatType: 1
+  walkBeatType: 0
   piso: {fileID: 1995620143486692102}
   pisoColor:
   - {r: 1, g: 0, b: 0.9137182, a: 0.09803922}

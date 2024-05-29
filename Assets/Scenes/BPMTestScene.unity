@@ -506,7 +506,7 @@ MonoBehaviour:
   _audioSource: {fileID: 0}
   margen: 0.799
   onMargen: 0
-  bpm: 202
+  bpm: 118
   isPlaying: 0
 --- !u!4 &833438590
 Transform:
@@ -533,7 +533,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 0fcca8d4f62d657429918a69da91ef23, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ae13d5e0fd98761479109051a1b6b2fa, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.308
   m_Pitch: 1

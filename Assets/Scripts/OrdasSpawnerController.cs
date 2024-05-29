@@ -37,7 +37,7 @@ public class OrdasSpawnerController : MonoBehaviour
         OrdaBeatReceiver ordaInstance = Instantiate(ordaPrefabs[Random.Range(0, ordaPrefabs.Count)], transform.position, transform.rotation);
         int zombiesNum = Random.Range(1, ordaInstance.zombiesPos.Count+1);
         ordaInstance.zombiesPos = ordaInstance.zombiesPos.OrderBy(i => Guid.NewGuid()).ToList();
-        for (int i = 0; i<zombiesNum-1; i++)
+        for (int i = 0; i<=zombiesNum-1; i++)
         {
             ZombieBrain zombie = Instantiate(zombiePrefab, ordaInstance.zombiesPos[i]);
             zombie._bodyAssets = bodytypes[Random.Range(0, bodytypes.Count)];
