@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Color unsactiveColor;
     private bool isOnZombieZone = false;
     private OrdaBeatReceiver zombieZone;
+    private bool Press;
+    private bool rightPress;
+    private bool simpliPress;
 
 
     private void Start()
@@ -74,6 +77,14 @@ public class PlayerController : MonoBehaviour
                 body.ResetAllSprites();
                 piso.color = unsactiveColor;
             }
+        }
+        else
+        {
+            float h_left = Input.GetAxis("Horizontal2");
+            float v_left = Input.GetAxis("Vertical2");
+            float h_right = Input.GetAxis("Horizontal2");
+            float v_right = Input.GetAxis("Vertical2");
+            // input unsimplified
         }
     }
 

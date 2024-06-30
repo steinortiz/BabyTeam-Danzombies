@@ -1,33 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum DanceMovesTypes
-{
-    Default,
-    Up,
-    Down,
-    Left,
-    Right,
-}
-[Serializable]
-public class Moves
-{
-    [Header("On Simplified Version")]
-    public DanceMovesTypes simplyfied = DanceMovesTypes.Default;
-    
-    [Header("On Unsimplified Version")]
-    public DanceMovesTypes leftArm= DanceMovesTypes.Default;
-    public DanceMovesTypes rightArm = DanceMovesTypes.Default;
-}
+
 
 public class OrdaBeatReceiver : MonoBehaviour
 {
     
     public BeatType danceBeatType;
     public BeatType walkBeatType;
+    private LTDescr walkingTween;
     
     public SpriteRenderer piso;
     public List<Color> pisoColor = new List<Color>();
@@ -71,6 +56,7 @@ public class OrdaBeatReceiver : MonoBehaviour
         BeatManager.OnBeat += OnBeatEvent;
         BeatManager.OnPreBeat += OnPreBeatEvent;
         BeatManager.OnPostBeat += OnPostBeatEvent;
+        GameController.OnPauseEvent += OnPauseEventReceiver;
     }
 
     private void OnDisable()
@@ -78,6 +64,7 @@ public class OrdaBeatReceiver : MonoBehaviour
         BeatManager.OnBeat -= OnBeatEvent;
         BeatManager.OnPreBeat -= OnPreBeatEvent;
         BeatManager.OnPostBeat -= OnPostBeatEvent;
+        GameController.OnPauseEvent -= OnPauseEventReceiver;
     }
 
     
@@ -124,7 +111,7 @@ public class OrdaBeatReceiver : MonoBehaviour
         if (OnBeatZombieDance != null)
         {
             // Start AnimatingZombies
-            //(OnBeatZombieDance(new Moves());
+            //OnBeatZombieDance(new Moves());
         }
     }
     
@@ -197,6 +184,7 @@ public class OrdaBeatReceiver : MonoBehaviour
                 }
             }
         }
+        OnBeatZombieDance(new Moves());
     }
 
     
@@ -229,6 +217,19 @@ public class OrdaBeatReceiver : MonoBehaviour
     
     public void Move(float timeAnim, Vector3 finalPos, LeanTweenType curve = LeanTweenType.linear)
     {
-        LeanTween.moveLocal(this.gameObject, finalPos, timeAnim).setEase(curve).setDestroyOnComplete(true);
+        walkingTween = LeanTween.moveLocal(this.gameObject, finalPos, timeAnim).setEase(curve).setDestroyOnComplete(true);
+    }
+
+    public void OnPauseEventReceiver(bool isPaused)
+    {
+        if (isPaused)
+        {
+            walkingTween.pause();
+        }
+        else
+        {
+            walkingTween.resume();
+        }
+        
     }
 }

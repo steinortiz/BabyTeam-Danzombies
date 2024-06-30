@@ -58,19 +58,7 @@ MonoBehaviour:
   - {r: 1, g: 0, b: 0.9137182, a: 0.09803922}
   - {r: 0, g: 1, b: 0.3023255, a: 0.12156863}
   generateRandomDance: 0
-  coreography:
-  - simplyfied: 1
-    leftArm: 2
-    rightArm: 2
-  - simplyfied: 2
-    leftArm: 2
-    rightArm: 2
-  - simplyfied: 1
-    leftArm: 2
-    rightArm: 2
-  - simplyfied: 2
-    leftArm: 2
-    rightArm: 2
+  coreography: []
   isRecieving: 0
   zombiesPos:
   - {fileID: 2215570497437989418}

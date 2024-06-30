@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum BeatType
 {
@@ -14,7 +15,7 @@ public enum BeatType
 
 public class BeatManager : MonoBehaviour
 {
-    public static BeatManager Instance { get; private set; }
+    
     public bool simplifiedControllers;
     public AudioSource _audioSource;
 
@@ -22,27 +23,27 @@ public class BeatManager : MonoBehaviour
     public static event OnBeatEvent OnPreBeat;
     public static event OnBeatEvent OnBeat;
     public static event OnBeatEvent OnPostBeat;
-
-    //[SerializeField] public static bool isPlaying {  get; private set; }
+    
     
     [Range(0f, 1f)] public float margen;
     public bool onMargen;
 
-    public float bpm;
+    public SongsDataSO songData {get; private set;}
+    public DificultyOnSong currentDificulty{get; private set;}
+    [SerializeField] private List<SongsDataSO> allSongs = new List<SongsDataSO>();
+
+    public float bpmDuration { get; private set; }
     private float timer;
     private int counter;
     private int totalcounter;
     
     
     //auxiliares
-
     private bool canPre;
+    private bool canBeat;
     private bool canPost;
     
-    
-    public bool isPlaying;
-    
-    
+    public static BeatManager Instance { get; private set; }
     private void Awake() 
     { 
         // If there is an instance, and it's not me, delete myself.
@@ -62,35 +63,35 @@ public class BeatManager : MonoBehaviour
     {
         //isPlaying = false;
         _audioSource = this.GetComponent<AudioSource>();
-        onMargen = false;
-        timer = 0f;
-        canPre = true;
-        canPost = false;
+        
+    }
+
+    private void SetUpSong()
+    {
+        
     }
     
     void Update()
     {
-        if (isPlaying)
+        if (_audioSource.isPlaying)
         {
             float songTime = _audioSource.time;
             
-            
-            if (songTime-timer >= ((60f / bpm) - (60f / bpm) * margen)&& canPre)
+            if (songTime >= ((bpmDuration * counter) - bpmDuration * margen)&& canPre)
             {
                 canPre = false;
                 PreBeat();
-                    
+                canBeat = true;
             }
-            
-            if (songTime-timer >= 60f/bpm)
+            else if (songTime >= bpmDuration * counter && canBeat)
             {
+                canBeat = false;
                 timer = songTime;
                 Beat();
                 canPost = true;
-                
             }
             
-            if (songTime-timer >= (0f + (60f / bpm) * margen) && canPost)
+            else if (songTime >= ((bpmDuration * counter) + bpmDuration * margen) && canPost)
             {
                 canPost = false;
                 PostBeat();
@@ -109,65 +110,92 @@ public class BeatManager : MonoBehaviour
             if (counter%2==0)
             {
                 OnPreBeat(BeatType.Negra);
+                if (counter%4==0)
+                {
+                    OnPreBeat(BeatType.Blanca);
+                    if (counter%8 == 0)
+                    {
+                        OnPreBeat(BeatType.Redonda);
+                    }
+                }
             }
-            if (counter%4==0)
-            {
-                OnPreBeat(BeatType.Blanca);
-            }
-            if (counter%8 == 0)
-            {
-                OnPreBeat(BeatType.Redonda);
-            }
+            
         }
         
     }
     void Beat()
     {
-        counter += 1;
+        
         if (OnBeat != null)
         {
             OnBeat(BeatType.Corchea);
             if (counter%2==0)
             {
                 OnBeat(BeatType.Negra);
+                if (counter%4==0)
+                {
+                    OnBeat(BeatType.Blanca);
+                    if (counter%8 == 0)
+                    {
+                        OnBeat(BeatType.Redonda);
+                    }
+                }
             }
-            if (counter%4==0)
-            {
-                OnBeat(BeatType.Blanca);
-            }
-            if (counter%8 == 0)
-            {
-                OnBeat(BeatType.Redonda);
-            }
+            
+            
         }
         
     }
     void PostBeat()
     {
         onMargen = false;
+        counter += 1;
         if (OnPostBeat != null)
         {
             OnPostBeat(BeatType.Corchea);
             if (counter%2==0)
             {
                 OnPostBeat(BeatType.Negra);
+                if (counter%4==0)
+                {
+                    OnPostBeat(BeatType.Blanca);
+                    if (counter%8 == 0)
+                    {
+                        OnPostBeat(BeatType.Redonda);
+                    }
+                }
             }
-            if (counter%4==0)
-            {
-                OnPostBeat(BeatType.Blanca);
-            }
-            if (counter%8 == 0)
-            {
-                OnPostBeat(BeatType.Redonda);
-            }
+            
+            
         }
         
     }
 
-    public void PlayBeat()
+    public void PlaySong()
     {
-        isPlaying = true;
+        onMargen = false;
+        canPre = false;
+        canBeat = true;
+        canPost = false;
+        songData = GetRandomSong();
+        _audioSource.clip = songData.song;
+        bpmDuration = (60f / songData.bpm);
+        timer = bpmDuration;
         _audioSource.Play();
-        
+    }
+
+    public SongsDataSO GetRandomSong()
+    {
+        return allSongs[Random.Range(0, allSongs.Count)];
+    }
+
+
+    public void PauseSong()
+    {
+        _audioSource.Pause();
+    }
+    public void ResumeSong()
+    {
+        _audioSource.Play();
     }
 }

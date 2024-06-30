@@ -9,29 +9,30 @@ public class OrdasSpawnerController : MonoBehaviour
 {
     [SerializeField] private List<OrdaBeatReceiver> ordaPrefabs =new List<OrdaBeatReceiver>();
     [SerializeField] private ZombieBrain zombiePrefab;
-    [SerializeField] private List<DancerSO> bodytypes = new List<DancerSO>();
+    [SerializeField] private List<DancerSO> costumes = new List<DancerSO>();
+    [SerializeField] private List<CoreographySO> coreos = new List<CoreographySO>();
 
     [Header("Animation Settings")] 
     public Vector3 finalPosition;
-    public float velocity;
+    public int bpmDurationMove;
     public LeanTweenType animationCurve;
     
+    public static OrdasSpawnerController Instance { get; private set; }
+    private void Awake() 
+    { 
+        // If there is an instance, and it's not me, delete myself.
     
-
-
-    private void Start()
-    {
-        PlayGame();
-        SpawnOrda();
-        
+        if (Instance != null && Instance != this) 
+        { 
+            Destroy(this.gameObject); 
+        } 
+        else 
+        { 
+            Instance = this;
+            //DontDestroyOnLoad(this);
+        } 
     }
-
-    private void PlayGame()
-    {
-        BeatManager.Instance.PlayBeat();
-    }
-
-    private void SpawnOrda()
+    public void SpawnOrda()
     {
         
         OrdaBeatReceiver ordaInstance = Instantiate(ordaPrefabs[Random.Range(0, ordaPrefabs.Count)], transform.position, transform.rotation);
@@ -40,10 +41,11 @@ public class OrdasSpawnerController : MonoBehaviour
         for (int i = 0; i<=zombiesNum-1; i++)
         {
             ZombieBrain zombie = Instantiate(zombiePrefab, ordaInstance.zombiesPos[i]);
-            zombie._bodyAssets = bodytypes[Random.Range(0, bodytypes.Count)];
+            zombie._bodyAssets = costumes[Random.Range(0, costumes.Count)];
             zombie.fatherZone = ordaInstance;
             zombie.Prepare();
         }
-        ordaInstance.Move(velocity,finalPosition,animationCurve);
+        ordaInstance.coreography = coreos[Random.Range(0, coreos.Count)].coreography;
+        ordaInstance.Move(BeatManager.Instance.bpmDuration*bpmDurationMove,finalPosition,animationCurve);
     }
 }

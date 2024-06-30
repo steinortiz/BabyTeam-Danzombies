@@ -51,6 +51,8 @@ public class WalkController : MonoBehaviour
     private void MovePivots(int stepWalk)
     {
         armsPivot.localPosition = localPivotInfo[stepWalk].armsPivotPosition;
-        bodyPivot.Rotate(localPivotInfo[stepWalking].bodyPivotRotation);
+        //Quaternion.Euler(localPivotInfo[stepWalk].bodyPivotRotation)
+        bodyPivot.rotation = Quaternion.Euler(localPivotInfo[stepWalk].bodyPivotRotation);
+        //bodyPivot.Rotate(localPivotInfo[stepWalking].bodyPivotRotation);
     }
 }
