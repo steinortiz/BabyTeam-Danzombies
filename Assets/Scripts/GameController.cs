@@ -5,11 +5,13 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
 
-    private bool isPlaying;
+    [SerializeField] private bool isPlaying;
     private bool isPaused;
     
     public delegate void PauseEvent(bool isPaused);
     public static event PauseEvent OnPauseEvent;
+    public delegate void PlayEvent(bool isPlaying);
+    public static event PlayEvent OnPlayEvent;
     
     public static GameController Instance { get; private set; }
 
@@ -26,39 +28,37 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         } 
     }
-    
-    private void Start()
-    {
-        PlayGame();
-    }
 
-    private void PlayGame()
+    public void PlayGame()
     {
         isPlaying = true;
         isPaused = false;
-        BeatManager.Instance.PlaySong();
-        OrdasSpawnerController.Instance.SpawnOrda();
+        if (OnPlayEvent != null)
+        {
+            OnPlayEvent(isPlaying);
+        }
+        OrdasSpawnerController.Instance?.SpawnOrda();
+        
     }
 
-    public void PauseGame()
+    public void StopGame()
     {
-        isPaused = true;
-        if (OnPauseEvent != null)
-        {
-            OnPauseEvent(isPaused);
-        }
-        BeatManager.Instance.PauseSong();
-        UiController.Instance.PauseUI();
-    }
-    public void UnPauseGame()
-    {
+        isPlaying = false;
         isPaused = false;
+        if (OnPlayEvent != null)
+        {
+            OnPlayEvent(isPlaying);
+        }
+        OrdasSpawnerController.Instance?.SpawnOrda();
+    }
+
+    public void SetPauseGame(bool paused)
+    {
+        isPaused = paused;
         if (OnPauseEvent != null)
         {
             OnPauseEvent(isPaused);
         }
-        BeatManager.Instance.ResumeSong();
-        UiController.Instance.UnPauseUI();
     }
 
     // Update is called once per frame
@@ -68,13 +68,15 @@ public class GameController : MonoBehaviour
         {
             if (!isPaused)
             {
-                PauseGame();
+                SetPauseGame(true);
             }
             else
             {
-                UnPauseGame();
+                //SetPauseGame(false);
             }
             
         }
     }
+    
+    
 }

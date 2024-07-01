@@ -28,7 +28,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (BeatManager.Instance.simplifiedControllers)
+        bool simplyfied = true;
+        if(BeatManager.Instance != null)simplyfied = BeatManager.Instance.simplifiedControllers;
+        if (simplyfied)
         {
             if (Input.GetKeyDown("up"))
             {

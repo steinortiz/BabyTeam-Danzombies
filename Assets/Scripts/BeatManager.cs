@@ -58,19 +58,50 @@ public class BeatManager : MonoBehaviour
             //DontDestroyOnLoad(this);
         } 
     }
+    
+    private void OnEnable()
+    {
+        
+        GameController.OnPauseEvent += OnPauseEventReceiver;
+        GameController.OnPlayEvent += OnPlayingEventReceiver;
+    }
+
+    private void OnDisable()
+    {
+        
+        GameController.OnPauseEvent -= OnPauseEventReceiver;
+        GameController.OnPlayEvent -= OnPlayingEventReceiver;
+    }
 
     private void Start()
     {
-        //isPlaying = false;
         _audioSource = this.GetComponent<AudioSource>();
         
     }
 
-    private void SetUpSong()
+    private void OnPauseEventReceiver(bool isPaused)
     {
-        
+        if (isPaused)
+        {
+            PauseSong();
+        }
+        else
+        {
+            ResumeSong();
+        }
     }
-    
+    private void OnPlayingEventReceiver(bool isPlaying)
+    {
+        if (isPlaying)
+        {
+            PlaySong();
+        }
+        else
+        {
+            StopSong();
+        }
+    }
+
     void Update()
     {
         if (_audioSource.isPlaying)
@@ -197,5 +228,10 @@ public class BeatManager : MonoBehaviour
     public void ResumeSong()
     {
         _audioSource.Play();
+    }
+
+    public void StopSong()
+    {
+        _audioSource.Stop();
     }
 }

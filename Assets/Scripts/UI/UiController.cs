@@ -15,6 +15,7 @@ public enum AnimationType
 
 public class UiController : MonoBehaviour
 {
+    [SerializeField] public Canvas gameCanvas;
     [SerializeField] public Canvas pauseCanvas;
     [SerializeField] private GameObject buttonsContainer;
     
@@ -37,6 +38,8 @@ public class UiController : MonoBehaviour
 
     [SerializeField] private float animBordesTime;
     [SerializeField] private LeanTweenType animBordesType;
+    private LTDescr leftTween;
+    private LTDescr rightTween;
     
     [Header("Animacion Cortinas")]
     
@@ -62,44 +65,71 @@ public class UiController : MonoBehaviour
             Instance = this;
         } 
     }
-    
-    
 
-    public void SetUP()
+    private void OnEnable()
     {
-        leftObj.localPosition = initialPosLeftObj;
-        rightObj.localPosition = initialPosRightObj;
-        centralObj.localPosition = initialPosCentralObj;
-        buttonsContainer.SetActive(false);
+        
+        GameController.OnPauseEvent += OnPauseEventReceiver;
+        GameController.OnPlayEvent += SetStateGameUI;
     }
 
-    public void PauseUI()
+    private void OnDisable()
     {
-        SetUP();
+        
+        GameController.OnPauseEvent -= OnPauseEventReceiver;
+        GameController.OnPlayEvent -= SetStateGameUI;
+    }
+
+    private void Start()
+    {
+        UnPauseUI();
+    }
+
+    public void SetStateGameUI(bool active)
+    {
+        gameCanvas.enabled = active;
+    }
+    private void OnPauseEventReceiver(bool isPaused)
+    {
+        if (isPaused)
+        {
+            PauseUI();
+        }
+        else
+        {
+            UnPauseUI();
+        }
+    }
+    private void PauseUI()
+    {
+        //LeanTween.pauseAll();
+        buttonsContainer.SetActive(false);
         pauseCanvas.enabled = true;
         AnimateBordes();
         AnimateCentral();
     }
-    public void UnPauseUI()
+    private void UnPauseUI()
     {
+        leftTween?.pause();
+        rightTween?.pause();
+        leftObj.localPosition = initialPosLeftObj;
+        rightObj.localPosition = initialPosRightObj;
+        centralObj.localPosition = initialPosCentralObj;
         pauseCanvas.enabled = false;
-        Time.timeScale = 1;
+        buttonsContainer.SetActive(false);
     }
     private void AnimateBordes()
     {
-        Debug.Log("animation bordes");
-        LeanTween.moveLocal(leftObj.gameObject, finalPosLeftObj, animBordesTime).setEase(animBordesType);
-        LeanTween.moveLocal(rightObj.gameObject, finalPosRightObj, animBordesTime).setEase(animBordesType);
+        leftTween = LeanTween.moveLocal(leftObj.gameObject, finalPosLeftObj, animBordesTime).setEase(animBordesType);
+        rightTween = LeanTween.moveLocal(rightObj.gameObject, finalPosRightObj, animBordesTime).setEase(animBordesType);
     }
 
     private void AnimateCentral()
     {
-        Debug.Log("animation Central");
         LeanTween.moveLocal(centralObj.gameObject, finalPosCentralObj, animCentralTime).setEase(animCentralType).setOnComplete(
             () =>
             {
                 buttonsContainer.SetActive(true);
-                //Time.timeScale = 0;
             });
     }
     
@@ -132,19 +162,18 @@ public class UiController : MonoBehaviour
                callback?.Invoke();
            });
    }
-    
-
-    private void OnAnimationLoadSceneComplete(string sceneName, bool additive)
-    {
-        LoadSceneMode mode = LoadSceneMode.Single;
-        if(additive) mode = LoadSceneMode.Additive;
-        var time = SceneManager.LoadSceneAsync(sceneName,mode);
-    }
+   
 
     public void OpenCortinas()
     {
         MoveFullCortina(fullOpenPosition);
         MoveSemiCortina(semiOpenPosition);
+    }
+
+
+    public void UnPauseButtonAction()
+    {
+        GameController.Instance.SetPauseGame(false);
     }
 
 }
